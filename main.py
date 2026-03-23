@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import plotly.express as px
 
 # 页面配置
 st.set_page_config(page_title="霍尔效应双参数计算器", layout="wide")
