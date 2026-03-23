@@ -2,4 +2,8 @@ streamlit
 pandas
 numpy
 plotly
-yaml
+pyyaml
+markdown-it-py
+mdurl
+pygments
+rich
