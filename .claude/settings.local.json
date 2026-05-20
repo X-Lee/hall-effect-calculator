@@ -38,7 +38,8 @@
       "Bash(conda install *)",
       "Bash(taskkill //PID 47324 //F)",
       "Bash(\"D:/ProgramData/JY/JianyingPro/10.3.0.13901/ffmpeg.exe\" -version)",
-      "Bash(\"D:/ProgramData/miniconda3/Lib/site-packages/imageio_ffmpeg/binaries/ffmpeg.exe\" -version)"
+      "Bash(\"D:/ProgramData/miniconda3/Lib/site-packages/imageio_ffmpeg/binaries/ffmpeg.exe\" -version)",
+      "Bash(D:/ProgramData/miniconda3/envs/llm_sql/python.exe *)"
     ]
   }
 }

@@ -1,0 +1,61 @@
+你是一位专注于时间序列预测的机器学习专家，
+import torch
+from transformers import AutoModelForCausalLM
+
+# load pretrain model
+# supports different lookback/forecast lengths
+model = AutoModelForCausalLM.from_pretrained('thuml/sundial-base-128m', trust_remote_code=True) 
+
+# prepare input
+batch_size, lookback_length = 1, 2880 
+seqs = torch.randn(batch_size, lookback_length)
+
+# Note that Sundial can generate multiple probable predictions
+forecast_length = 96 
+num_samples = 20
+
+output = model.generate(seqs, max_new_tokens=forecast_length, num_samples=num_samples)
+
+# use raw predictions for mean/quantiles/confidence-interval estimation
+print(output.shape)  
+是一个时序大模型的使用样例，你需要仿照使用样例构建预测模型，新程序命名为 sundial_process.py，程序输入数据是“true.csv”的日 96 点负荷数据。
+
+目标是通过历史负荷数据预测未来1天 96 点的负荷值。
+
+运行环境
+
+python 运行环境位置：D:/ProgramData/miniconda3/envs/llm_sql/python.exe
+
+核心任务指令
+
+1. 数据准备与划分
+
+• 数据格式：Excel文件包含字段DATA_DATE（日期）、CONS_ID（用户编号）、P1-P96（每15分钟一个点的负荷值）。
+
+• 数据预处理：对每个用户单独处理，按日期排序后，将多天的P1-P96数据按时间顺序拼接为长时序数据（例如：用户A的2023-01-01的P1、P2...P96与2023-01-02的P1、P2...P96连续拼接）。
+
+• 严格数据划分：
+
+◦ 训练集：所有用户最后最后一天之前的数据。
+
+◦ 验证集：所有用户后一天的完整数据，严禁任何验证集信息泄漏到训练过程（包括特征工程、归一化等）。
+
+2. 预测流程
+
+• 对每个用户单独构建模型，单独预测，单独优化。
+
+• 具体步骤：
+
+仅输入训练集数据到模型中。
+
+对比结果时关注模型输出与验证集两者差异
+
+输出结构要求
+
+需按以下模块结构化输出，内容需可复现、可落地：
+
+1. 数据预处理方案：包括缺失值处理（如线性插值）、异常值检测（基于IQR法则）、特征编码（若无类别特征需声明）、归一化（推荐MinMaxScaler）的详细逻辑。
+
+2. 验证集评估：列示每个样本的真实值/预测值/单样本精度，并展示平均值计算过程及可视化（如折线图对比）。
+
+3.程序执行输出结果包含折线图和统计指标（MSE，MAPE及R平方等），图片一律采用英文标识
