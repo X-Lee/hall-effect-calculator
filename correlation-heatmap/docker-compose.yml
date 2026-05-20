@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend.Dockerfile
+    image: correlation-heatmap-backend:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - uploads:/app/uploads
+      - outputs:/app/outputs
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend.Dockerfile
+    image: correlation-heatmap-frontend:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  uploads:
+  outputs:

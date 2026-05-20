@@ -1,0 +1,22 @@
+version: "3.8"
+services:
+  backend:
+    image: correlation-heatmap-backend:latest
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - uploads:/app/uploads
+      - outputs:/app/outputs
+
+  frontend:
+    image: correlation-heatmap-frontend:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  uploads:
+  outputs:
